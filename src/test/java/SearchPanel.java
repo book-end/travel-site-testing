@@ -21,22 +21,21 @@ public class SearchPanel {
         driver.manage().window().maximize();
 
         driver.get("https://easyjet.com/en");
-        driver.findElement(By.id("ensOpenModal")).click();
+        driver.findElement(By.id("ensCloseBanner")).click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ensRejectAllModal")));
-
-        driver.findElement(By.id("ensRejectAllModal")).click();
-
-        driver.findElement(By.id("origin-412070")).click();
-        driver.findElement(By.id("origin-412070")).sendKeys("London");
+        driver.findElement(By.cssSelector("input[name='origin']")).click();
+        driver.findElement(By.cssSelector("input[name='origin']")).sendKeys("London");
 
         // li > a > span (parent > child)
         // get list of airports
         List<WebElement> origins = driver.findElements(By.cssSelector("#ui-id-1 li>a>span"));
 
         for(WebElement origin : origins) {
-            String text = origin.getText();
+            if (origin.getText().contains("Luton")) {
+                origin.click();
+            }
         }
+
+        
     }
 }
